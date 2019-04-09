@@ -997,6 +997,7 @@ getQuiet = do i <- getIState
 
 setCodegen :: Codegen -> Idris ()
 setCodegen t = do i <- getIState
+                  -- liftIO  $ putStr "Testing codegen option"
                   let opts = idris_options i
                   let opt' = opts { opt_codegen = t }
                   putIState $ i { idris_options = opt' }
