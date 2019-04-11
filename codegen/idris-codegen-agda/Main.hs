@@ -5,7 +5,7 @@ import Idris.ElabDecls
 import Idris.Main
 import Idris.Options
 import IRTS.CodegenJavaScript
--- import IRTS.CodegenAgda
+import IRTS.CodegenAgda
 import IRTS.Compiler
 
 import System.Environment
@@ -34,7 +34,7 @@ jsMain opts = do elabPrims
                  loadInputs (inputs opts) Nothing
                  mainProg <- elabMain
                  ir <- compile (Via IBCFormat "javascript") (output opts) (Just mainProg)
-                 runIO $ codegenJavaScript ir
+                 runIO $ codegenAgda ir
 
 main :: IO ()
 main = do opts <- getOpts
