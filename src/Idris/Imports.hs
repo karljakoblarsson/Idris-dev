@@ -50,7 +50,7 @@ pkgName ""      = Left "empty package name"
 pkgName s@(f:l)
     | not $ isAlpha f =
         Left "package name need to start by a letter"
-    | not $ all (\c -> isAlpha c || isDigit c || c `elem` "-_") l =
+    | not $ all (\c -> isAlpha c || isDigit c || c `elem` ("-_" :: String)) l =
         Left "package name need to contain only letter, digits, and -_"
     | otherwise = Right $ PkgName s
 
