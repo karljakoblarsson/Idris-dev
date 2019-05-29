@@ -2291,7 +2291,7 @@ runElabAction info ist fc env tm ns = do tm' <- eval tm
            opTm <- eval op'
            case opTm of
              Constant (Str op) ->
-               let opChars = ":!#$%&*+./<=>?@\\^|-~"
+               let opChars = (":!#$%&*+./<=>?@\\^|-~" :: String)
                    invalidOperators = [":", "=>", "->", "<-", "=", "?=", "|", "**", "==>", "\\", "%", "~", "?", "!"]
                    fixities = idris_infixes ist
                in if not (all (flip elem opChars) op) || elem op invalidOperators

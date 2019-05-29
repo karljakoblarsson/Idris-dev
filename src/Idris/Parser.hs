@@ -14,7 +14,7 @@ Maintainer  : The Idris Community.
 
 module Idris.Parser(IdrisParser(..), ImportInfo(..), moduleName, addReplSyntax, clearParserWarnings,
                     decl, fixColour, loadFromIFile, loadModule, name, opChars, parseElabShellStep, parseConst, parseExpr, parseImports, parseTactic,
-                    runparser, ParseError, parseErrorDoc) where
+                    runparser, ParseError, parseErrorDoc, prog) where
 
 import Idris.AbsSyntax hiding (namespace, params)
 import Idris.Core.Evaluate
@@ -59,7 +59,6 @@ import qualified System.Directory as Dir (makeAbsolute)
 import System.FilePath
 import Text.Megaparsec ((<?>))
 import qualified Text.Megaparsec as P
-import qualified Text.Megaparsec.Char as P
 import qualified Text.PrettyPrint.ANSI.Leijen as PP
 
 {-

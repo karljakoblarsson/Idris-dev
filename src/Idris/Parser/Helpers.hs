@@ -271,8 +271,8 @@ reservedIdentifiers = HS.fromList
 
 identifierOrReserved :: Parsing m => m String
 identifierOrReserved = token $ P.try $ do
-  c <- P.satisfy isAlpha <|> P.oneOf "_"
-  cs <- P.many (P.satisfy isAlphaNum <|> P.oneOf "_'.")
+  c <- P.satisfy isAlpha <|> P.oneOf ("_" :: String)
+  cs <- P.many (P.satisfy isAlphaNum <|> P.oneOf ("_'." :: String))
   return $ c : cs
 
 char :: Parsing m => Char -> m Char
@@ -292,7 +292,7 @@ symbol = void . token . P.string
 reserved :: Parsing m => String -> m ()
 reserved name = token $ P.try $ do
   P.string name
-  P.notFollowedBy (P.satisfy isAlphaNum <|> P.oneOf "_'.") <?> "end of " ++ name
+  P.notFollowedBy (P.satisfy isAlphaNum <|> P.oneOf ("_'." :: String)) <?> "end of " ++ name
 
 -- | Parses an identifier as a token
 identifier :: Parsing m => m String
@@ -393,7 +393,7 @@ popIndent = do ist <- get
 
 -- | Gets current indentation
 indent :: Parsing m => m Int
-indent = P.unPos . P.sourceColumn <$> P.getPosition
+indent = P.unPos . P.sourceColumn <$> P.getSourcePos
 
 -- | Gets last indentation
 lastIndent :: (MonadState IState m) => m Int
@@ -478,7 +478,7 @@ terminator :: IdrisParser ()
 terminator =     do lchar ';'; popIndent
              <|> do c <- indent; l <- lastIndent
                     if c <= l then popIndent else fail "not a terminator"
-             <|> do isParen <- lookAheadMatches (P.oneOf ")}")
+             <|> do isParen <- lookAheadMatches (P.oneOf (")}" :: String))
                     if isParen then popIndent else fail "not a terminator"
              <|> P.lookAhead P.eof
 
@@ -487,7 +487,7 @@ keepTerminator :: IdrisParser ()
 keepTerminator =  () <$ lchar ';'
               <|> do c <- indent; l <- lastIndent
                      unless (c <= l) $ fail "not a terminator"
-              <|> do isParen <- lookAheadMatches (P.oneOf ")}|")
+              <|> do isParen <- lookAheadMatches (P.oneOf (")}|" :: String))
                      isIn <- lookAheadMatches (reserved "in")
                      unless (isIn || isParen) $ fail "not a terminator"
               <|> P.lookAhead P.eof

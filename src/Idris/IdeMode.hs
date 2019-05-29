@@ -224,12 +224,12 @@ atom = SexpList [] <$ P.string "nil"
 atomC :: Parser SExp
 atomC = BoolAtom True  <$ P.string "True"
     <|> BoolAtom False <$ P.string "False"
-    <|> SymbolAtom <$> many (P.noneOf " \n\t\r\"()")
+    <|> SymbolAtom <$> many (P.noneOf (" \n\t\r\"()" :: String))
 
 quotedChar :: Parser Char
 quotedChar = P.try ('\\' <$ P.string "\\\\")
          <|> P.try ('"' <$ P.string "\\\"")
-         <|> P.noneOf "\""
+         <|> P.noneOf ("\"" :: String)
 
 data Opt = ShowImpl | ErrContext deriving Show
 
