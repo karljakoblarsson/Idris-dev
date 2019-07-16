@@ -20,12 +20,12 @@ clean:
 	$(MAKE) -C effects clean
 	$(MAKE) -C pruviloj clean
 
-doc:
-	$(MAKE)	-C prelude doc
-	$(MAKE)	-C base doc
-	$(MAKE)	-C contrib doc
-	$(MAKE)	-C effects doc
-	$(MAKE)	-C pruviloj doc
+# doc:
+#   $(MAKE)	-C prelude doc
+#   $(MAKE)	-C base doc
+#   $(MAKE)	-C contrib doc
+#   $(MAKE)	-C effects doc
+#   $(MAKE)	-C pruviloj doc
 
 doc_clean:
 	$(MAKE)	-C prelude doc_clean

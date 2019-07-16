@@ -698,5 +698,5 @@ copyDependencies :: FilePath -- ^ The base directory to which
                              --   dependencies should be written
                  -> IO ()
 copyDependencies dir =
-  do styles <- getIdrisDataFileByName $ "idrisdoc" </> "styles.css"
+  do styles <- getIdrisDataFileByName $ "Idris-dev" </> "idrisdoc" </> "styles.css"
      copyFile styles (dir </> "styles.css")

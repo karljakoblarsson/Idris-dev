@@ -16,15 +16,16 @@ module IRTS.System( getIdrisDataFileByName
                   , getIdrisJSRTSDir
                   , getIncFlags
                   , getEnvFlags
+                  , version
                   ) where
 
--- #ifdef FREESTANDING
--- import Paths_idris (version)
--- import Target_idris
--- #else
--- import Paths_idris
--- #endif
--- import BuildFlags_idris
+#ifdef FREESTANDING
+import Paths_IdrisToAgda (version)
+import Target_IdrisToAgda
+#else
+import Paths_IdrisToAgda
+#endif
+import BuildFlags_IdrisToAgda
 
 import Control.Applicative ((<$>))
 import Data.List.Split
@@ -39,7 +40,7 @@ getIdrisDataDir = do
   envValue <- lookupEnv "TARGET"
   case envValue of
     Nothing -> do
-      ddir <- undefined -- getDataDir
+      ddir <- getDataDir
       return ddir
     Just ddir -> return ddir
 
@@ -87,7 +88,7 @@ gmpLib = ["-lgmp", "-DIDRIS_GMP"]
 gmpLib = []
 #endif
 
-extraLibFlags = map ("-L" ++) undefined -- extraLibDirs
+extraLibFlags = map ("-L" ++) extraLibDirs
 
 getLibFlags = do dir <- getIdrisCRTSDir
                  return $ extraLibFlags

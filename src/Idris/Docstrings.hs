@@ -31,6 +31,7 @@ import Data.Foldable (Foldable)
 import qualified Data.Foldable as F
 import qualified Data.Sequence as S
 import qualified Data.Text as T
+import Data.Data
 import Data.Traversable (Traversable)
 import GHC.Generics (Generic)
 import Text.Blaze.Html (Html)

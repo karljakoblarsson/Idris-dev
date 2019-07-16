@@ -33,7 +33,7 @@ import Idris.Error (ifail)
 import Idris.IBC
 import Idris.IdrisDoc
 import Idris.Imports
-import Idris.Main (idris, idrisMain)
+import Idris.IdrMain (idris, idrisMain)
 import Idris.Options
 import Idris.Output
 import Idris.Parser (loadModule)

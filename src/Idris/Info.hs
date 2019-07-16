@@ -29,7 +29,7 @@ import Idris.Imports (installedPackages)
 import Idris.Options (loggingCatsStr)
 import qualified IRTS.System as S
 
-import Version_idris (gitHash)
+import Version_IdrisToAgda (gitHash)
 
 import Data.Version
 import System.Directory

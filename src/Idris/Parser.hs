@@ -1705,6 +1705,7 @@ loadSource lidr f toline
                   -- Save the span from parsing the module header, because
                   -- an empty program parse might obliterate it.
                   let oldSpan = idris_parsedSpan ist
+                  liftIO (putStrLn file)
                   ds' <- parseProg syntax f file pos
 
                   case (ds', oldSpan) of

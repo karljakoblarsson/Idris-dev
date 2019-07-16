@@ -667,7 +667,7 @@ data PDecl' t
    -- | FC is decl-level, for errors, and Strings represent the
    -- namespace
    | PRunElabDecl FC t [String]
- deriving (Functor, Generic)
+ deriving (Functor, Generic, Typeable)
 {-!
 deriving instance Binary PDecl'
 !-}

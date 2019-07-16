@@ -101,7 +101,7 @@ import Util.DynamicLinker
 import Util.Net (listenOnLocalhost, listenOnLocalhostAnyPort)
 import Util.Pretty hiding ((</>))
 import Util.System
-import Version_idris (gitHash)
+import Version_IdrisToAgda (gitHash)
 
 -- | Run the REPL
 repl :: IState -- ^ The initial state

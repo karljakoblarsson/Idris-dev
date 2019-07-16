@@ -1451,7 +1451,6 @@ bindAll ((n, b) : bs) t = Bind n b (bindAll bs t)
 -- constructs a @Binder@ from a @TT@ term.
 bindTyArgs :: (TT n -> Binder (TT n)) -> [(n, TT n)] -> TT n -> TT n
 bindTyArgs b xs = bindAll (map (\ (n, ty) -> (n, b ty)) xs)
-
 -- | Return a list of pairs of the names of the outermost 'Pi'-bound
 -- variables in the given term, together with their types.
 getArgTys :: TT n -> [(n, TT n)]

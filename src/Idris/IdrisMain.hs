@@ -1,4 +1,4 @@
-module IdrisMain (main) where
+module Idris.Main  where
 
 import System.Exit (ExitCode(..), exitSuccess, exitWith)
 

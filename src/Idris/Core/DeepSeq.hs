@@ -28,9 +28,11 @@ forceDefCtxt (force -> !ctxt) = ctxt
 
 instance NFData NameOutput
 instance NFData TextFormatting
+
 #if !(MIN_VERSION_base(4,10,0))
 instance NFData Ordering
 #endif
+
 instance NFData OutputAnnotation
 instance NFData SpecialName
 instance NFData Universe
