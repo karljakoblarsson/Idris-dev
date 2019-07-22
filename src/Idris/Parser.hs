@@ -1705,7 +1705,6 @@ loadSource lidr f toline
                   -- Save the span from parsing the module header, because
                   -- an empty program parse might obliterate it.
                   let oldSpan = idris_parsedSpan ist
-                  liftIO (putStrLn file)
                   ds' <- parseProg syntax f file pos
 
                   case (ds', oldSpan) of
@@ -1730,6 +1729,11 @@ loadSource lidr f toline
                   logLvl 3 (show (idris_infixes i))
                   -- Now add all the declarations to the context
                   iReport 1 $ "Type checking " ++ f
+
+                  -- Save AST To I state
+                  i <- getIState
+                  putIState (i { ast = ds})
+
                   -- we totality check after every Mutual block, so if
                   -- anything is a single definition, wrap it in a
                   -- mutual block on its own

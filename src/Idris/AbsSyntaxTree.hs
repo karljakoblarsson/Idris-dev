@@ -309,6 +309,7 @@ data IState = IState {
   , idris_ttstats                :: M.Map Term (Int, Term)
   , idris_fragile                :: Ctxt String               -- ^ Fragile names and explanation.
   , idris_interactiveOpts        :: InteractiveOpts
+  , ast                          :: [PDecl]
   } deriving Generic
 
 -- Required for parsers library, and therefore trifecta
@@ -413,6 +414,7 @@ idrisInit = IState initContext S.empty []
                    (RawOutput stdout) True defaultTheme [] (0, emptyContext) emptyContext M.empty
                    AutomaticWidth S.empty S.empty [] [] [] M.empty [] S.empty S.empty
                    emptyContext S.empty M.empty emptyContext initialInteractiveOpts
+                   []
 
 
 -- | The monad for the main REPL - reading and processing files and
