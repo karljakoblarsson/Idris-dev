@@ -1533,7 +1533,7 @@ parseProg syn fname input mrk
     = do i <- getIState
          case runparser mainProg i fname input of
             Left err -> do emitWarning err
-                           i <- getIState
+                           i <- get
                            putIState (i { errSpan = Just (messageExtent err) })
                            return []
             Right (x, i)  -> do putIState i
@@ -1598,6 +1598,7 @@ loadModule' f phase
         fp <- findImport ids ibcsd file
         if file `elem` imported i
           then do logParser 1 $ "Already read " ++ file
+                  liftIO $ print ".idr file already read. Please clear .ibc files"
                   return Nothing
           else do putIState (i { imported = file : imported i })
                   case fp of
@@ -1722,6 +1723,10 @@ loadSource lidr f toline
 
                   -- Parsing done, now process declarations
 
+                  -- Save AST To I state
+                  i <- getIState
+                  putIState (i { ast = ds'})
+
                   let ds = namespaces mname ds'
                   logParser 3 (show $ showDecls verbosePPOption ds)
                   i <- getIState
@@ -1729,10 +1734,6 @@ loadSource lidr f toline
                   logLvl 3 (show (idris_infixes i))
                   -- Now add all the declarations to the context
                   iReport 1 $ "Type checking " ++ f
-
-                  -- Save AST To I state
-                  i <- getIState
-                  putIState (i { ast = ds})
 
                   -- we totality check after every Mutual block, so if
                   -- anything is a single definition, wrap it in a

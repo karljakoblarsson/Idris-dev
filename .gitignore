@@ -53,3 +53,6 @@ TAGS
 .vscode
 .idea
 
+
+*.csv
+*.istats
