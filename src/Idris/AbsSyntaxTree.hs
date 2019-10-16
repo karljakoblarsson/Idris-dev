@@ -393,6 +393,7 @@ data IBCWrite = IBCFix FixDecl
               | IBCDeprecate Name String
               | IBCFragile Name String
               | IBCConstraint FC UConstraint
+              | IBCAST
   deriving (Show, Generic)
 
 initialInteractiveOpts :: InteractiveOpts

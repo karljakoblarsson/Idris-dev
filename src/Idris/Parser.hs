@@ -1692,6 +1692,12 @@ loadSource lidr f toline
                   putIState (i { default_access = Private, module_aliases = modAliases })
                   clearIBC -- start a new .ibc file
                   -- record package info in .ibc
+
+                  -- Always write AST to IBC-file
+                  -- TODO This should probably only be done for top-level
+                  -- modules. But it works for now.
+                  addIBC IBCAST
+
                   imps <- allImportDirs
                   mapM_ addIBC (map IBCImportDir imps)
                   mapM_ (addIBC . IBCImport)

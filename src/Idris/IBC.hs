@@ -101,6 +101,7 @@ data IBCFile = IBCFile {
   , ibc_fragile                :: ![(Name, String)]
   , ibc_constraints            :: ![(FC, UConstraint)]
   , ibc_langexts               :: ![LanguageExt]
+  , ibc_ast                    :: ![PDecl]
   }
   deriving Show
 {-!
@@ -108,7 +109,7 @@ deriving instance Binary IBCFile
 !-}
 
 initIBC :: IBCFile
-initIBC = IBCFile ibcVersion "" [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] Nothing [] [] [] [] [] [] [] [] [] [] []
+initIBC = IBCFile ibcVersion "" [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] Nothing [] [] [] [] [] [] [] [] [] [] [] []
 
 hasValidIBCVersion :: FilePath -> Idris Bool
 hasValidIBCVersion fp = do
@@ -208,7 +209,9 @@ entries i = catMaybes [Just $ toEntry "ver" 0 (encode $ ver i),
                        makeEntry "ibc_injective"  (ibc_injective i),
                        makeEntry "ibc_access"  (ibc_access i),
                        makeEntry "ibc_fragile" (ibc_fragile i),
-                       makeEntry "ibc_langexts" (ibc_langexts i)]
+                       makeEntry "ibc_langexts" (ibc_langexts i),
+                       -- Save the concrete AST to the IBC
+                       makeEntry "ibc_ast" (ibc_ast i)]
 -- TODO: Put this back in shortly after minimising/pruning constraints
 --                        makeEntry "ibc_constraints" (ibc_constraints i)]
 
@@ -347,6 +350,7 @@ ibc i (IBCAutoHint n h) f = return f { ibc_autohints = (n, h) : ibc_autohints f 
 ibc i (IBCDeprecate n r) f = return f { ibc_deprecated = (n, r) : ibc_deprecated f }
 ibc i (IBCFragile n r)   f = return f { ibc_fragile    = (n,r)  : ibc_fragile f }
 ibc i (IBCConstraint fc u)  f = return f { ibc_constraints = (fc, u) : ibc_constraints f }
+ibc i (IBCAST)  f = return f { ibc_ast = ast i }
 
 getEntry :: (Binary b, NFData b) => b -> FilePath -> Archive -> Idris b
 getEntry alt f a = case findEntryByPath f a of
@@ -435,6 +439,7 @@ process reexp phase archive fn = do
                 processFragile archive
                 processConstraints archive
                 processLangExts phase archive
+                processAST archive
 
 timestampOlder :: FilePath -> FilePath -> Idris ()
 timestampOlder src ibc = do
@@ -844,6 +849,11 @@ processLangExts (IBC_REPL True) ar
     = do ds <- getEntry [] "ibc_langexts" ar
          mapM_ addLangExt ds
 processLangExts _ _ = return ()
+
+processAST :: Archive -> Idris ()
+processAST ar = do
+  pdecls <- getEntry [] "ibc_ast" ar
+  updateIState (\i -> i { ast = pdecls })
 
 ----- For Cheapskate and docstrings
 
