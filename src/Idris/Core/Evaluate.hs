@@ -732,7 +732,7 @@ data Def = Function !Type !Term
                   ![Either Term (Term, Term)] -- original definition
                   ![([Name], Term, Term)] -- simplified for totality check definition
                   !CaseDefs
-  deriving Generic
+  deriving (Show, Generic)
 --                   [Name] SC -- Compile time case definition
 --                   [Name] SC -- Run time cae definitions
 
@@ -740,14 +740,14 @@ data CaseDefs = CaseDefs {
                   cases_compiletime :: !([Name], SC),
                   cases_runtime :: !([Name], SC)
                 }
-  deriving Generic
+  deriving (Show, Generic)
 
 data CaseInfo = CaseInfo {
                   case_inlinable :: Bool, -- decided by machine
                   case_alwaysinline :: Bool, -- decided by %inline flag
                   tc_dictionary :: Bool
                 }
-  deriving Generic
+  deriving (Show, Generic)
 
 {-!
 deriving instance Binary Def
@@ -759,20 +759,20 @@ deriving instance Binary CaseInfo
 deriving instance Binary CaseDefs
 !-}
 
-instance Show Def where
-    show (Function ty tm) = "Function: " ++ show (ty, tm)
-    show (TyDecl nt ty) = "TyDecl: " ++ show nt ++ " " ++ show ty
-    show (Operator ty _ _) = "Operator: " ++ show ty
-    show (CaseOp (CaseInfo inlc inla inlr) ty atys ps_in ps cd)
-      = let (ns, sc) = cases_compiletime cd
-            (ns', sc') = cases_runtime cd in
-          "Case: " ++ show ty ++ " " ++ show ps ++ "\n" ++
-                                        "COMPILE TIME:\n\n" ++
-                                        show ns ++ " " ++ show sc ++ "\n\n" ++
-                                        "RUN TIME:\n\n" ++
-                                        show ns' ++ " " ++ show sc' ++ "\n\n" ++
-            if inlc then "Inlinable" else "Not inlinable" ++
-            if inla then " Aggressively\n" else "\n"
+-- instance Show Def where
+--     show (Function ty tm) = "Function: " ++ show (ty, tm)
+--     show (TyDecl nt ty) = "TyDecl: " ++ show nt ++ " " ++ show ty
+--     show (Operator ty _ _) = "Operator: " ++ show ty
+--     show (CaseOp (CaseInfo inlc inla inlr) ty atys ps_in ps cd)
+--       = let (ns, sc) = cases_compiletime cd
+--             (ns', sc') = cases_runtime cd in
+--           "Case: " ++ show ty ++ " " ++ show ps ++ "\n" ++
+--                                         "COMPILE TIME:\n\n" ++
+--                                         show ns ++ " " ++ show sc ++ "\n\n" ++
+--                                         "RUN TIME:\n\n" ++
+--                                         show ns' ++ " " ++ show sc' ++ "\n\n" ++
+--             if inlc then "Inlinable" else "Not inlinable" ++
+--             if inla then " Aggressively\n" else "\n"
 
 -------
 

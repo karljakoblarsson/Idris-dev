@@ -998,7 +998,7 @@ data TT n = P NameType n (TT n) -- ^ named references with type
                             -- given by the programmer
           | TType UExp -- ^ the type of types at some level
           | UType Universe -- ^ Uniqueness type universe (disjoint from TType)
-  deriving (Ord, Functor, Data, Generic, Typeable)
+  deriving (Show, Ord, Functor, Data, Generic, Typeable)
 {-!
 deriving instance Binary TT
 !-}
@@ -1530,8 +1530,8 @@ type Env  = EnvTT Name
 newtype WkEnvTT n = Wk (EnvTT n)
 type WkEnv = WkEnvTT Name
 
-instance (Eq n, Show n) => Show (TT n) where
-    show t = showEnv [] t
+-- instance (Eq n, Show n) => Show (TT n) where
+--     show t = showEnv [] t
 
 itBitsName IT8 = "Bits8"
 itBitsName IT16 = "Bits16"
