@@ -499,6 +499,7 @@ data Plicity = Imp { pargopts  :: [ArgOpt]
                    }
              | Exp { pargopts :: [ArgOpt]
                    , pstatic  :: Static
+                   -- TODO Here is index vs. bool stored!
                    , pparam   :: Bool -- ^ this is a param (rather than index)
                    , pcount    :: RigCount
                    }
@@ -595,7 +596,15 @@ data PDecl' t
    -- | Fixity declaration
    = PFix FC Fixity [String]
    -- | Type declaration (last FC is precise name location)
-   | PTy (Docstring (Either Err t)) [(Name, Docstring (Either Err t))] SyntaxInfo FC FnOpts Name FC t
+   | PTy
+       (Docstring (Either Err t))
+       [(Name, Docstring (Either Err t))]
+       SyntaxInfo
+       FC
+       FnOpts
+       Name
+       FC
+       t
    -- | Postulate, second FC is precise name location
    | PPostulate Bool -- external def if true
           (Docstring (Either Err t)) SyntaxInfo FC FC FnOpts Name t
